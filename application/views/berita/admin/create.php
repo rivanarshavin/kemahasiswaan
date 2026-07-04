@@ -282,10 +282,11 @@
             </div>
 
             <!-- Alert Messages -->
-            <?php if($this->session->flashdata('error')): ?>
+            <?php if($this->session->flashdata('error') || validation_errors()): ?>
                 <div class="alert alert-danger">
                     <i class="fas fa-exclamation-circle me-2"></i>
                     <?= $this->session->flashdata('error') ?>
+                    <?= validation_errors() ?>
                 </div>
             <?php endif; ?>
 
@@ -402,9 +403,11 @@
                         <button type="button" class="btn-draft" onclick="saveAsDraft()">
                             <i class="fas fa-save me-2"></i>Simpan sebagai Draft
                         </button>
-                        <button type="submit" class="btn-save" name="submit_type" value="publish">
+                        <button type="button" class="btn-save" onclick="publishNews()">
                             <i class="fas fa-paper-plane me-2"></i>Publikasikan
                         </button>
+                        <!-- Hidden submit button to trigger natural validation and submit -->
+                        <button type="submit" id="hiddenSubmit" style="display: none;"></button>
                     </div>
 
                 <?= form_close() ?>
@@ -470,21 +473,31 @@
             document.getElementById('previewImg').src = '';
         });
 
-        // Save as draft function
+        // Save as draft and publish functions
         function saveAsDraft() {
             document.getElementById('statusDraft').checked = true;
-            document.getElementById('beritaForm').submit();
+            document.getElementById('hiddenSubmit').click();
         }
 
-        // Form validation
+        function publishNews() {
+            document.getElementById('statusPublish').checked = true;
+            document.getElementById('hiddenSubmit').click();
+        }
+
+        // Form validation and Loading state
         document.getElementById('beritaForm').addEventListener('submit', function(e) {
+            // Update CKEditor content to textarea
+            if (window.CKEDITOR && CKEDITOR.instances.konten) {
+                CKEDITOR.instances.konten.updateElement();
+            }
+
             const judul = document.getElementById('judul').value.trim();
             const kategori = document.querySelector('select[name="kategori"]').value;
-            const konten = CKEDITOR.instances.konten.getData().trim();
+            const konten = document.getElementById('konten').value.trim();
 
-            if (!judul) {
+            if (!judul || judul.length < 5) {
                 e.preventDefault();
-                alert('Judul berita harus diisi!');
+                alert('Judul berita harus diisi dan minimal 5 karakter!');
                 document.getElementById('judul').focus();
                 return false;
             }
@@ -495,22 +508,27 @@
                 return false;
             }
 
-            if (!konten || konten === '') {
+            if (!konten || konten === '' || konten.length < 20) {
                 e.preventDefault();
-                alert('Konten berita harus diisi!');
-                CKEDITOR.instances.konten.focus();
+                alert('Konten berita harus diisi dan minimal 20 karakter!');
+                if (CKEDITOR.instances.konten) {
+                    CKEDITOR.instances.konten.focus();
+                } else {
+                    document.getElementById('konten').focus();
+                }
                 return false;
             }
-        });
 
-        // Initialize Select2 if needed
-        // $('.form-select').select2();
-
-        // Show loading on submit
-        document.getElementById('beritaForm').addEventListener('submit', function() {
-            const btn = document.querySelector('button[type="submit"]');
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Menyimpan...';
-            btn.disabled = true;
+            // Show loading and disable buttons after successful validation
+            const btnSave = document.querySelector('.btn-save');
+            const btnDraft = document.querySelector('.btn-draft');
+            if (btnSave) {
+                btnSave.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Menyimpan...';
+                btnSave.disabled = true;
+            }
+            if (btnDraft) {
+                btnDraft.disabled = true;
+            }
         });
     </script>
 </body>
