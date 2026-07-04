@@ -291,10 +291,11 @@
             </div>
 
             <!-- Alert Messages -->
-            <?php if($this->session->flashdata('error')): ?>
+            <?php if($this->session->flashdata('error') || validation_errors()): ?>
                 <div class="alert alert-danger">
                     <i class="fas fa-exclamation-circle me-2"></i>
                     <?= $this->session->flashdata('error') ?>
+                    <?= validation_errors() ?>
                 </div>
             <?php endif; ?>
 
@@ -485,15 +486,20 @@
             document.getElementById('previewImg').src = '';
         });
 
-        // Form validation
+        // Form validation and Loading state
         document.getElementById('beritaForm').addEventListener('submit', function(e) {
+            // Update CKEditor content to textarea
+            if (window.CKEDITOR && CKEDITOR.instances.konten) {
+                CKEDITOR.instances.konten.updateElement();
+            }
+
             const judul = document.getElementById('judul').value.trim();
             const kategori = document.querySelector('select[name="kategori"]').value;
-            const konten = CKEDITOR.instances.konten.getData().trim();
+            const konten = document.getElementById('konten').value.trim();
 
-            if (!judul) {
+            if (!judul || judul.length < 5) {
                 e.preventDefault();
-                alert('Judul berita harus diisi!');
+                alert('Judul berita harus diisi dan minimal 5 karakter!');
                 document.getElementById('judul').focus();
                 return false;
             }
@@ -504,19 +510,23 @@
                 return false;
             }
 
-            if (!konten || konten === '') {
+            if (!konten || konten === '' || konten.length < 20) {
                 e.preventDefault();
-                alert('Konten berita harus diisi!');
-                CKEDITOR.instances.konten.focus();
+                alert('Konten berita harus diisi dan minimal 20 karakter!');
+                if (CKEDITOR.instances.konten) {
+                    CKEDITOR.instances.konten.focus();
+                } else {
+                    document.getElementById('konten').focus();
+                }
                 return false;
             }
-        });
 
-        // Show loading on submit
-        document.getElementById('beritaForm').addEventListener('submit', function() {
+            // Show loading and disable submit button
             const btn = document.querySelector('button[type="submit"]');
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Menyimpan...';
-            btn.disabled = true;
+            if (btn) {
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Menyimpan...';
+                btn.disabled = true;
+            }
         });
     </script>
 </body>

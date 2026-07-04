@@ -411,6 +411,8 @@ class Berita extends CI_Controller
         $this->form_validation->set_rules('konten', 'Konten', 'required|min_length[20]');
         $this->form_validation->set_rules('ringkasan', 'Ringkasan', 'max_length[500]');
         $this->form_validation->set_rules('status', 'Status', 'required|in_list[draft,publish]');
+        $this->form_validation->set_rules('penulis', 'Penulis', 'max_length[100]');
+        $this->form_validation->set_rules('sumber', 'Sumber', 'max_length[255]');
         
         if ($this->form_validation->run() == FALSE) {
             $this->load->view('berita/admin/create', $data);
@@ -429,7 +431,8 @@ class Berita extends CI_Controller
                 'kategori' => $this->input->post('kategori'),
                 'konten' => $this->input->post('konten'),
                 'ringkasan' => $this->input->post('ringkasan') ?: substr(strip_tags($this->input->post('konten')), 0, 200) . '...',
-                'penulis' => $this->session->userdata('nama'),
+                'penulis' => $this->input->post('penulis') ?: $this->session->userdata('nama'),
+                'sumber' => $this->input->post('sumber') ?: null,
                 'status' => $this->input->post('status'),
                 'featured' => $this->input->post('featured') ? 1 : 0,
                 'published_at' => ($this->input->post('status') == 'publish') ? date('Y-m-d H:i:s') : null
@@ -494,6 +497,8 @@ class Berita extends CI_Controller
         $this->form_validation->set_rules('konten', 'Konten', 'required|min_length[20]');
         $this->form_validation->set_rules('ringkasan', 'Ringkasan', 'max_length[500]');
         $this->form_validation->set_rules('status', 'Status', 'required|in_list[draft,publish]');
+        $this->form_validation->set_rules('penulis', 'Penulis', 'max_length[100]');
+        $this->form_validation->set_rules('sumber', 'Sumber', 'max_length[255]');
         
         if ($this->form_validation->run() == FALSE) {
             $this->load->view('berita/admin/edit', $data);
@@ -503,9 +508,19 @@ class Berita extends CI_Controller
                 'kategori' => $this->input->post('kategori'),
                 'konten' => $this->input->post('konten'),
                 'ringkasan' => $this->input->post('ringkasan'),
+                'penulis' => $this->input->post('penulis'),
+                'sumber' => $this->input->post('sumber') ?: null,
                 'status' => $this->input->post('status'),
                 'featured' => $this->input->post('featured') ? 1 : 0
             ];
+
+            // Handle hapus_gambar checkbox
+            if ($this->input->post('hapus_gambar') == 1) {
+                if ($berita['gambar'] && file_exists('./uploads/berita/' . $berita['gambar'])) {
+                    unlink('./uploads/berita/' . $berita['gambar']);
+                }
+                $berita_data['gambar'] = null;
+            }
             
             // Update slug if judul berubah
             if ($berita['judul'] != $this->input->post('judul')) {
