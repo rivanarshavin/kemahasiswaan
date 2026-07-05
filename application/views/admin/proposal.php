@@ -565,6 +565,17 @@
                     <i class="fas fa-newspaper"></i>
                     <span>Berita</span>
                 </a>
+                <a href="<?= base_url('admin/organisasi') ?>">
+                    <i class="fas fa-users"></i>
+                    <span>Organisasi</span>
+                </a>
+                
+                <div class="menu-divider"></div>
+                
+                <a href="<?= base_url('admin/history_log') ?>">
+                    <i class="fas fa-history"></i>
+                    <span>History Log</span>
+                </a>
                 
                 <div class="menu-divider"></div>
                 

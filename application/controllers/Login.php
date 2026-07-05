@@ -6,6 +6,7 @@ class Login extends CI_Controller {
     public function __construct() {
         parent::__construct();
         $this->load->model('Login_model');
+        $this->load->model('Log_model');
         $this->load->library(['session', 'form_validation']);
         $this->load->helper(['url', 'form']);
     }
@@ -51,6 +52,10 @@ class Login extends CI_Controller {
                 'logged_in'  => TRUE,
             ];
             $this->session->set_userdata($session_data);
+            
+            // Catat ke log history
+            $this->Log_model->insert_log($user->id, $user->nama, $user->role, 'Login Berhasil');
+            
             redirect($this->_redirect_after_login($user->role));
         } else {
             $this->session->set_flashdata('error', 'NIM/Username atau password salah.');

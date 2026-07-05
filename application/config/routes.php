@@ -122,33 +122,6 @@ $route['forum_alumni/create'] = 'forum_alumni/create';
 $route['forum_alumni/store'] = 'forum_alumni/store';
 $route['forum_alumni/get_likes'] = 'forum_alumni/get_likes';
 
-// Sertifikat Routes
-$route['sertifikat']                        = 'sertifikat/index';
-$route['sertifikat/kirim']                  = 'sertifikat/kirim';
-$route['sertifikat/admin']                  = 'sertifikat/admin';
-$route['sertifikat/update_status']          = 'sertifikat/update_status';
-$route['sertifikat/get_detail_json/(:num)'] = 'sertifikat/get_detail_json/$1';
-$route['sertifikat/export_excel_canva']     = 'sertifikat/export_excel_canva';
-$route['sertifikat/verifikasi/(.+)']        = 'sertifikat/verifikasi/$1';
-$route['sertifikat/generate']               = 'sertifikat/generate';
-$route['sertifikat/get_approved_json']      = 'sertifikat/get_approved_json';
-$route['sertifikat/download_export/(:num)'] = 'sertifikat/download_export/$1';
-
-// TAK Routes
-$route['tak']                               = 'tak/index';
-$route['tak/submit']                        = 'tak/submit';
-$route['tak/detail/(:num)']                 = 'tak/detail/$1';
-$route['tak/hapus/(:num)']                  = 'tak/hapus/$1';
-$route['tak/get_kategori']                  = 'tak/get_kategori';
-
-$route['tak_admin']                         = 'tak_admin/index';
-$route['tak_admin/detail/(:num)']           = 'tak_admin/detail/$1';
-$route['tak_admin/approve/(:num)']          = 'tak_admin/approve/$1';
-$route['tak_admin/reject/(:num)']           = 'tak_admin/reject/$1';
-$route['tak_admin/update_status']           = 'tak_admin/update_status';
-$route['tak_admin/get_detail/(:num)']       = 'tak_admin/get_detail/$1';
-$route['tak_admin/export_excel']            = 'tak_admin/export_excel';
-
 // Profile routes
 $route['profile'] = 'profile/index';
 $route['profile/edit'] = 'profile/edit';
