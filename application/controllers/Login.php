@@ -209,6 +209,9 @@ class Login extends CI_Controller {
                 ];
                 $this->session->set_userdata($session_data);
 
+                // Catat ke log history
+                $this->Log_model->insert_log($user->id, $user->nama, $user->role, 'Login Berhasil (Microsoft SSO)');
+
                 echo json_encode([
                     'status'   => 'success',
                     'redirect' => base_url($this->_redirect_after_login($user->role))
