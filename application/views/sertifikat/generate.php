@@ -358,11 +358,13 @@
 
         .template-check {
             width: 26px; height: 26px;
+            min-width: 26px; min-height: 26px;
             border-radius: 50%;
             background: #e9ecef;
             border: 2px solid #dee2e6;
             display: flex; align-items: center; justify-content: center;
             color: white; font-size: 0.75rem;
+            flex-shrink: 0;
             transition: all 0.25s;
         }
 
@@ -787,28 +789,6 @@
     </style>
 </head>
 <body>
-    <!-- Mobile Topbar -->
-    <div class="mobile-topbar" id="mobileTopbar">
-        <div class="topbar-inner">
-            <button class="hamburger-btn" id="hamburgerBtn" onclick="toggleSidebar()" aria-label="Toggle Menu">
-                <i class="fas fa-bars" id="hamburgerIcon"></i>
-            </button>
-            <div
-             class="topbar-right">
-                <span class="topbar-username">
-                    <i class="fas fa-user-circle"></i>
-                    <span class="name-text"><?= $this->session->userdata('nama') ?></span>
-                </span>
-                <a href="<?= base_url('login/logout') ?>" class="topbar-logout">
-                    <i class="fas fa-sign-out-alt"></i>Logout
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <!-- Sidebar Overlay -->
-    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
-
 <?php if ($this->session->userdata('role') === 'mahasiswa'): ?>
     <?php $this->load->view('partials/navbar', ['active_menu' => 'layanan']); ?>
     <!-- ========== HERO SECTION ========== -->
@@ -837,6 +817,27 @@
             Kembali ke Pengajuan Sertifikat
         </a>
 <?php else: ?>
+    <!-- Mobile Topbar -->
+    <div class="mobile-topbar" id="mobileTopbar">
+        <div class="topbar-inner">
+            <button class="hamburger-btn" id="hamburgerBtn" onclick="toggleSidebar()" aria-label="Toggle Menu">
+                <i class="fas fa-bars" id="hamburgerIcon"></i>
+            </button>
+            <div class="topbar-right">
+                <span class="topbar-username">
+                    <i class="fas fa-user-circle"></i>
+                    <span class="name-text"><?= $this->session->userdata('nama') ?></span>
+                </span>
+                <a href="<?= base_url('login/logout') ?>" class="topbar-logout">
+                    <i class="fas fa-sign-out-alt"></i>Logout
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sidebar Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
 <div class="admin-wrapper">
     <!-- Sidebar -->
     <div class="admin-sidebar" id="adminSidebar">
