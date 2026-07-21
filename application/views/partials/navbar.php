@@ -13,6 +13,10 @@ if (isset($user_data) && is_array($user_data) && isset($user_data['logged_in']) 
     $is_logged_in = true;
     $user_nama = $user->nama;
     $user_foto = $user->foto ?? '';
+} elseif (get_instance()->session->userdata('logged_in')) {
+    $is_logged_in = true;
+    $user_nama = get_instance()->session->userdata('nama') ?? '';
+    $user_foto = get_instance()->session->userdata('foto') ?? '';
 }
 
 $nav_logo_file = 'logo-fik.jpeg';
