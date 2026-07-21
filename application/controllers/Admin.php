@@ -1442,7 +1442,8 @@ class Admin extends CI_Controller {
             'jabatan_ketua'   => 'Ketua Ikatan Alumni FIK',
             'periode_ketua'   => '2024 - 2028',
             'foto_ketua'      => '',
-            'sambutan_ketua'  => 'Wadah silaturahmi, sinergi, dan kolaborasi bagi seluruh alumni Fakultas Industri Kreatif Telkom University untuk terus berkarya, berinovasi, dan berdampak bagi masyarakat.'
+            'sambutan_ketua'  => 'Wadah silaturahmi, sinergi, dan kolaborasi bagi seluruh alumni Fakultas Industri Kreatif Telkom University untuk terus berkarya, berinovasi, dan berdampak bagi masyarakat.',
+            'quote_ketua'     => 'Mempererat jejaring alumni FIK, menyalurkan potensi & sinergi karya kreatif untuk almamater dan Indonesia.'
         ];
 
         $current_data = file_exists($json_path)
@@ -1500,6 +1501,7 @@ class Admin extends CI_Controller {
                 'periode_ketua'   => $this->input->post('periode_ketua', TRUE) ?: $current_data['periode_ketua'],
                 'foto_ketua'      => $foto_ketua_file,
                 'sambutan_ketua'  => $this->input->post('sambutan_ketua', TRUE) ?: $current_data['sambutan_ketua'],
+                'quote_ketua'     => $this->input->post('quote_ketua', TRUE) ?: $current_data['quote_ketua'],
             ];
 
             file_put_contents($json_path, json_encode($update_data, JSON_PRETTY_PRINT));

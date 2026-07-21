@@ -946,7 +946,7 @@
                     </div>
                     <div class="ketua-quote">
                         <i class="fas fa-quote-left quote-icon"></i>
-                        <p class="mb-0">"Mempererat jejaring alumni FIK, menyalurkan potensi & sinergi karya kreatif untuk almamater dan Indonesia."</p>
+                        <p class="mb-0">"<?= htmlspecialchars(!empty($ikatan_alumni['quote_ketua']) ? $ikatan_alumni['quote_ketua'] : 'Mempererat jejaring alumni FIK, menyalurkan potensi & sinergi karya kreatif untuk almamater dan Indonesia.') ?>"</p>
                     </div>
                 </div>
             </div>

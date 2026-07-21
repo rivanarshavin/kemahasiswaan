@@ -724,8 +724,13 @@
                             </div>
 
                             <div class="col-md-12">
-                                <label class="form-label font-weight-bold text-secondary">Deskripsi / Sambutan Ringkas</label>
-                                <textarea name="sambutan_ketua" class="form-control" rows="3" style="border-radius: 8px; resize: vertical;"><?= htmlspecialchars($ikatan_alumni['sambutan_ketua'] ?? '') ?></textarea>
+                                <label class="form-label font-weight-bold text-secondary">Deskripsi Banner Organisasi</label>
+                                <textarea name="sambutan_ketua" class="form-control" rows="2" placeholder="Deskripsi organisasi yang tampil di bawah judul..." style="border-radius: 8px; resize: vertical;"><?= htmlspecialchars($ikatan_alumni['sambutan_ketua'] ?? '') ?></textarea>
+                            </div>
+
+                            <div class="col-md-12">
+                                <label class="form-label font-weight-bold text-secondary">Kutipan / Quote Kartu Ketua Alumni</label>
+                                <textarea name="quote_ketua" class="form-control" rows="2" placeholder="Kalimat kutipan ketua yang tampil di kotak oranye..." style="border-radius: 8px; resize: vertical;"><?= htmlspecialchars($ikatan_alumni['quote_ketua'] ?? 'Mempererat jejaring alumni FIK, menyalurkan potensi & sinergi karya kreatif untuk almamater dan Indonesia.') ?></textarea>
                             </div>
                         </div>
                     </div>
