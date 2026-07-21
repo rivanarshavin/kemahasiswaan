@@ -324,14 +324,16 @@ $kaprodi_list = [
 ];
 
 $pembina_list = [
-    'imagi'     => ['nama' => 'Putu Raka Setya Putra, S.Ds., M.Ds.', 'nip' => '23940001'],
-    'kmdi'      => ['nama' => 'Mohd. Ridho Kurniawan, S.Ds., M.Ds. / Teddy Ageng Maulana, S.Sn., M.Sn.', 'nip' => '24980005 / 22730003'],
-    'serat'     => ['nama' => 'Jeng Oetari, S.Sn., M.Ds.', 'nip' => '23980019'],
-    'indec'     => ['nama' => 'Alvian Fajar, S.Ds., M.Ds.', 'nip' => '20900023'],
-    'hawasemu'  => ['nama' => 'Adrian Permana Zen, S.Ds., MA.', 'nip' => '20900013'],
-    'digistar'  => ['nama' => 'Adrian Permana Zen, S.Ds., MA.', 'nip' => '20900013'],
-    'bem'       => ['nama' => 'Isnan Purnama, S.E., M.M.', 'nip' => '22930026'],
-    'dpm'       => ['nama' => 'Isnan Purnama, S.E., M.M.', 'nip' => '22930026']
+    'imagi'      => ['nama' => 'Putu Raka Setya Putra, S.Ds., M.Ds.', 'nip' => '23940001'],
+    'kmdi'       => ['nama' => 'Mohd. Ridho Kurniawan, S.Ds., M.Ds. / Teddy Ageng Maulana, S.Sn., M.Sn.', 'nip' => '24980005 / 22730003'],
+    'serat'      => ['nama' => 'Jeng Oetari, S.Sn., M.Ds.', 'nip' => '23980019'],
+    'indec'      => ['nama' => 'Alvian Fajar, S.Ds., M.Ds.', 'nip' => '20900023'],
+    'hawasemu'   => ['nama' => 'Adrian Permana Zen, S.Ds., MA.', 'nip' => '20900013'],
+    'digistar'   => ['nama' => 'Adrian Permana Zen, S.Ds., MA.', 'nip' => '20900013'],
+    'balon kata' => ['nama' => 'Jeng Oetari, S.Sn., M.Ds.', 'nip' => '23980019'],
+    'balon'      => ['nama' => 'Jeng Oetari, S.Sn., M.Ds.', 'nip' => '23980019'],
+    'bem'        => ['nama' => 'Isnan Purnama, S.E., M.M.', 'nip' => '22930026'],
+    'dpm'        => ['nama' => 'Isnan Purnama, S.E., M.M.', 'nip' => '22930026']
 ];
 
 $prodi_raw = trim($p->program_studi ?? '');
