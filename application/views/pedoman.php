@@ -9,6 +9,13 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 
   <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    .container-custom {
+      width: min(100% - 3rem, 1280px);
+      margin-inline: auto;
+    }
+
     body {
       font-family: 'Inter', sans-serif;
       background: #f8fafc;
@@ -169,9 +176,15 @@
       color: #d1d5db;
     }
 
+    /* ── NAVBAR FIXED OVERRIDE (halaman pedoman tidak punya hero full-screen) ── */
+    .header-glass {
+      position: fixed !important;
+      top: 24px !important;
+    }
+
     @media (max-width: 768px) {
       .content-box { padding: 1.5rem; }
-      .bg-orange-grad { padding-top: 120px; }
+      .bg-orange-grad { padding-top: 100px; }
     }
   </style>
 </head>
@@ -260,11 +273,7 @@
     </div>
   </div>
 
-  <footer class="bg-dark text-white text-center py-4 mt-auto">
-    <div class="container">
-      <p class="mb-0 opacity-75">&copy; <?= date('Y') ?> Fakultas Industri Kreatif. Telkom University.</p>
-    </div>
-  </footer>
+  <?php $this->load->view('partials/footer'); ?>
 
   <!-- Modal Preview Pedoman -->
   <div class="modal fade" id="previewModal" tabindex="-1" aria-labelledby="previewModalLabel" aria-hidden="true">

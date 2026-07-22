@@ -1924,7 +1924,7 @@
     <div class="container-custom">
       <div class="org-layout">
         <div class="org-left">
-          <h2 class="org-section-title">Daftar Organisasi<br>Kemahasiswaan<br>Universitas Telkom</h2>
+          <h2 class="org-section-title">Daftar Organisasi<br>Kemahasiswaan<br>Fakultas Industri Kreatif</h2>
           <p class="org-section-subtitle">Bergabung dan kembangkan potensimu bersama 25+ UKM favorit</p>
         </div>
         
