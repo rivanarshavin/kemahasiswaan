@@ -332,6 +332,8 @@
                     </div>
 
                     <div class="row g-3">
+                        <!-- Feature Upload PDF Di-comment sesuai permintaan -->
+                        <!--
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Upload File PDF <span style="color:#999; font-weight:400;">(opsional – jika ada, akan dipakai saat download)</span></label>
@@ -344,6 +346,7 @@
                                 <?php endif; ?>
                             </div>
                         </div>
+                        -->
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Status</label>
@@ -387,7 +390,7 @@
                                 <th width="50">Urutan</th>
                                 <th>Judul Peraturan</th>
                                 <th>Deskripsi</th>
-                                <th width="80">PDF</th>
+                                <!-- <th width="80">PDF</th> -->
                                 <th width="80">Status</th>
                                 <th width="180">Aksi</th>
                             </tr>
@@ -408,6 +411,7 @@
                                 <td style="max-width:200px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
                                     <?= htmlspecialchars($p->deskripsi ?? '-') ?>
                                 </td>
+                                <!--
                                 <td class="text-center">
                                     <?php if (!empty($p->file_pdf)): ?>
                                         <a href="<?= base_url($p->file_pdf) ?>" target="_blank" title="Lihat PDF" style="color:#e74c3c;">
@@ -417,6 +421,7 @@
                                         <span style="color:#ccc;font-size:.75rem;">–</span>
                                     <?php endif; ?>
                                 </td>
+                                -->
                                 <td>
                                     <span class="badge-status <?= $p->aktif ? 'badge-aktif' : 'badge-nonaktif' ?>">
                                         <?= $p->aktif ? 'Aktif' : 'Nonaktif' ?>
