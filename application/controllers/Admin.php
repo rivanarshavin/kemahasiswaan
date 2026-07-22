@@ -1597,4 +1597,155 @@ class Admin extends CI_Controller {
         redirect('admin/forum_alumni');
     }
 
+    // =========================================================================
+    // PEDOMAN & PERATURAN
+    // =========================================================================
+
+    private function _data_pedoman_base() {
+        $this->load->model('Pedoman_model');
+        return [
+            'nama_user'   => $this->_nama(),
+            'role'        => $this->_role(),
+            'pedoman_list'=> $this->Pedoman_model->get_all(),
+            'total'       => $this->Pedoman_model->count_all(),
+            'total_aktif' => $this->Pedoman_model->count_aktif(),
+        ];
+    }
+
+    /** Halaman utama manajemen pedoman */
+    public function pedoman() {
+        $data = array_merge($this->_data_pedoman_base(), [
+            'title' => 'Manajemen Pedoman & Peraturan',
+        ]);
+        $this->load->view('admin/pedoman', $data);
+    }
+
+    /** Simpan peraturan baru */
+    public function pedoman_store() {
+        $this->load->model('Pedoman_model');
+        $judul = trim($this->input->post('judul'));
+        if (empty($judul)) {
+            $this->session->set_flashdata('error', 'Judul peraturan wajib diisi.');
+            redirect('admin/pedoman');
+        }
+
+        $isi = $this->input->post('isi');
+        // Allow HTML (Summernote output)
+        $save = [
+            'judul'     => $judul,
+            'deskripsi' => trim($this->input->post('deskripsi')),
+            'isi'       => $isi,
+            'urutan'    => (int)$this->input->post('urutan'),
+            'aktif'     => $this->input->post('aktif') ? (int)$this->input->post('aktif') : 1,
+        ];
+
+        // Handle PDF upload
+        if (!empty($_FILES['file_pdf']['name'])) {
+            $res = $this->_upload_pedoman_pdf();
+            if ($res['status'] === 'error') {
+                $this->session->set_flashdata('error', $res['message']);
+                redirect('admin/pedoman');
+            }
+            $save['file_pdf'] = $res['path'];
+        }
+
+        $this->Pedoman_model->insert($save);
+        $this->session->set_flashdata('success', 'Peraturan berhasil ditambahkan.');
+        redirect('admin/pedoman');
+    }
+
+    /** Tampilkan form edit peraturan */
+    public function pedoman_edit($id) {
+        $this->load->model('Pedoman_model');
+        $item = $this->Pedoman_model->get_by_id($id);
+        if (!$item) {
+            $this->session->set_flashdata('error', 'Peraturan tidak ditemukan.');
+            redirect('admin/pedoman');
+        }
+        $data = array_merge($this->_data_pedoman_base(), [
+            'title'     => 'Edit Peraturan',
+            'edit_item' => $item,
+        ]);
+        $this->load->view('admin/pedoman', $data);
+    }
+
+    /** Proses update peraturan */
+    public function pedoman_update($id) {
+        $this->load->model('Pedoman_model');
+        $item = $this->Pedoman_model->get_by_id($id);
+        if (!$item) {
+            $this->session->set_flashdata('error', 'Peraturan tidak ditemukan.');
+            redirect('admin/pedoman');
+        }
+
+        $judul = trim($this->input->post('judul'));
+        if (empty($judul)) {
+            $this->session->set_flashdata('error', 'Judul peraturan wajib diisi.');
+            redirect('admin/pedoman_edit/' . $id);
+        }
+
+        $save = [
+            'judul'     => $judul,
+            'deskripsi' => trim($this->input->post('deskripsi')),
+            'isi'       => $this->input->post('isi'),
+            'urutan'    => (int)$this->input->post('urutan'),
+            'aktif'     => (int)$this->input->post('aktif'),
+        ];
+
+        if (!empty($_FILES['file_pdf']['name'])) {
+            $res = $this->_upload_pedoman_pdf();
+            if ($res['status'] === 'error') {
+                $this->session->set_flashdata('error', $res['message']);
+                redirect('admin/pedoman_edit/' . $id);
+            }
+            // Hapus file lama
+            if (!empty($item->file_pdf) && file_exists(FCPATH . $item->file_pdf)) {
+                @unlink(FCPATH . $item->file_pdf);
+            }
+            $save['file_pdf'] = $res['path'];
+        }
+
+        $this->Pedoman_model->update($id, $save);
+        $this->session->set_flashdata('success', 'Peraturan berhasil diperbarui.');
+        redirect('admin/pedoman');
+    }
+
+    /** Toggle aktif/nonaktif */
+    public function pedoman_toggle($id) {
+        $this->load->model('Pedoman_model');
+        $this->Pedoman_model->toggle_aktif($id);
+        $this->session->set_flashdata('success', 'Status peraturan berhasil diubah.');
+        redirect('admin/pedoman');
+    }
+
+    /** Hapus peraturan */
+    public function pedoman_hapus($id) {
+        $this->load->model('Pedoman_model');
+        $result = $this->Pedoman_model->delete($id);
+        $this->session->set_flashdata(
+            $result ? 'success' : 'error',
+            $result ? 'Peraturan berhasil dihapus.' : 'Gagal menghapus peraturan.'
+        );
+        redirect('admin/pedoman');
+    }
+
+    /** Helper: upload file PDF pedoman */
+    private function _upload_pedoman_pdf() {
+        $upload_path = FCPATH . 'uploads/pedoman/';
+        if (!is_dir($upload_path)) {
+            mkdir($upload_path, 0755, true);
+        }
+        $this->upload->initialize([
+            'upload_path'   => $upload_path,
+            'allowed_types' => 'pdf',
+            'max_size'      => 10240, // 10 MB
+            'encrypt_name'  => true,
+        ]);
+        if (!$this->upload->do_upload('file_pdf')) {
+            return ['status' => 'error', 'message' => $this->upload->display_errors('', '')];
+        }
+        $file = $this->upload->data();
+        return ['status' => 'success', 'path' => 'uploads/pedoman/' . $file['file_name']];
+    }
+
 }

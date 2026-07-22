@@ -641,6 +641,7 @@ if ($is_logged_in) {
                 </div>
 
                 <a href="<?= base_url('forum_alumni') ?>" class="<?= $active_menu == 'forum_alumni' ? 'active' : '' ?>">Ikatan Alumni</a>
+                <a href="<?= base_url('pedoman') ?>" class="<?= $active_menu == 'pedoman' ? 'active' : '' ?>">Pedoman</a>
                 <a href="<?= base_url('tentangkami') ?>" class="<?= $active_menu == 'tentangkami' ? 'active' : '' ?>">Tentang Kami</a>
 
                 <?php if ($is_logged_in): ?>
