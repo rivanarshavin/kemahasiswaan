@@ -33,6 +33,10 @@ class Admin extends CI_Controller {
     private function _role() { return $this->session->userdata('role'); }
     private function _nama() { return $this->session->userdata('nama'); }
 
+    public function index() {
+        redirect('admin/edit_hero');
+    }
+
     public function proposal() {
         $tipe = $this->input->get('tipe');
         $status = $this->input->get('status');

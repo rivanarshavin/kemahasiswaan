@@ -96,7 +96,7 @@ $route['proposal/download_pdf/(:num)'] = 'Proposal/download_pdf/$1';
   $route['proposal/count_unread']        = 'Proposal/count_unread';
   $route['proposal/mark_read/(:num)']    = 'Proposal/mark_read/$1';
   $route['proposal/mark_all_read']       = 'Proposal/mark_all_read';
-  $route['admin']                       = 'admin/proposal';
+  $route['admin']                       = 'admin/edit_hero';
 $route['admin/dashboard']             = 'admin/dashboard';
 // Admin routes
 $route['admin/proposal'] = 'admin/proposal';

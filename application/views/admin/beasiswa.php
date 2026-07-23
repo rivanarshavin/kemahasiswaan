@@ -21,71 +21,12 @@
             min-height: 100vh;
         }
 
-        /* Sidebar */
-        .admin-sidebar {
-            width: 280px;
-            background: linear-gradient(135deg, #2C3E50, #1a2632);
-            color: white;
-            position: fixed;
-            height: 100vh;
-            overflow-y: auto;
-            z-index: 100;
-        }
-
-        .sidebar-header {
-            padding: 2rem 1.5rem;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .sidebar-header h3 {
-            margin: 0;
-            font-size: 1.3rem;
-            font-weight: 700;
-        }
-
-        .sidebar-header p {
-            margin: 0.5rem 0 0;
-            font-size: 0.8rem;
-            opacity: 0.7;
-        }
-
-        .sidebar-menu {
-            padding: 1.5rem 0;
-        }
-
-        .sidebar-menu a {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 0.8rem 1.5rem;
-            color: rgba(255,255,255,0.8);
-            text-decoration: none;
-            transition: all 0.3s ease;
-            border-left: 3px solid transparent;
-        }
-
-        .sidebar-menu a:hover,
-        .sidebar-menu a.active {
-            background: rgba(230, 126, 34, 0.2);
-            color: white;
-            border-left-color: #E67E22;
-        }
-
-        .sidebar-menu a i {
-            width: 20px;
-            color: #E67E22;
-        }
-
-        .sidebar-menu .menu-divider {
-            height: 1px;
-            background: rgba(255,255,255,0.1);
-            margin: 1rem 0;
-        }
+        /* Sidebar handled by partials/sidebar.php */
 
         /* Main Content */
         .admin-main {
             flex: 1;
-            margin-left: 280px;
+            margin-left: 270px;
             padding: 2rem;
         }
 
@@ -381,43 +322,13 @@
         /* === MOBILE RESPONSIVE CSS === */
         html, body { overflow-x: hidden; max-width: 100%; }
 
-        .mobile-topbar {
-            display: none; position: fixed; top: 0; left: 0; right: 0; z-index: 1100;
-            background: linear-gradient(135deg, #2C3E50, #1a2632);
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
-        }
-        .topbar-inner { display: flex; align-items: center; justify-content: space-between; height: 54px; padding: 0 0.75rem; }
-        .hamburger-btn {
-            display: none; background: rgba(255, 255, 255, 0.15); color: white; border: none;
-            border-radius: 8px; width: 38px; height: 38px; align-items: center; justify-content: center;
-            font-size: 1.1rem; cursor: pointer;
-        }
-        .topbar-right { display: flex; align-items: center; gap: 0.5rem; flex: 1; justify-content: flex-end; }
-        .topbar-username { display: flex; align-items: center; gap: 0.35rem; color: rgba(255, 255, 255, 0.9); font-size: 0.78rem; font-weight: 500; }
-        .topbar-username i { color: #E67E22; font-size: 1rem; }
-        .topbar-logout {
-            background: #e74c3c; color: white; border: none; border-radius: 8px;
-            padding: 0.38rem 0.8rem; font-size: 0.75rem; font-weight: 600; text-decoration: none; display: flex; align-items: center; gap: 0.3rem;
-        }
-        .sidebar-overlay {
-            display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.5); z-index: 999; backdrop-filter: blur(2px);
-        }
-        .sidebar-overlay.active { display: block; }
-
-        @media (max-width: 768px) {
-            .mobile-topbar { display: block; }
-            .hamburger-btn { display: flex; }
-            .admin-sidebar {
-                position: fixed !important; left: -280px !important; z-index: 1000;
-                transition: left 0.3s ease; width: 280px !important; display: block !important;
-            }
-            .admin-sidebar.open { left: 0 !important; }
-            .admin-main {
-                margin-left: 0 !important; padding: 1rem !important; padding-top: 4.5rem !important; max-width: 100vw;
-            }
+        @media (max-width: 991px) {
             .admin-header { flex-direction: column !important; align-items: stretch !important; gap: 0.75rem; margin-bottom: 1.5rem; }
             .admin-header h1 { font-size: 1.5rem; }
             .admin-header .user-info { display: none; }
+            .admin-main { padding: 1rem !important; }
+        }
+        @media (max-width: 576px) {
             .table-card { padding: 1.2rem; overflow-x: auto; }
             .stats-grid { grid-template-columns: 1fr; }
             .filter-bar .row > div { margin-bottom: 1rem; }
@@ -425,128 +336,15 @@
     </style>
 </head>
 <body>
-    <!-- Mobile Topbar -->
-    <div class="mobile-topbar" id="mobileTopbar">
-        <div class="topbar-inner">
-            <div class="d-flex align-items-center gap-2">
-                <button class="hamburger-btn" id="hamburgerBtn" onclick="toggleSidebar()">
-                    <i class="fas fa-bars" id="hamburgerIcon"></i>
-                </button>
-                <span class="topbar-username">
-                    <i class="fas fa-user-circle"></i>
-                    <span><?= htmlspecialchars($this->session->userdata('nama') ?? 'Admin') ?></span>
-                </span>
-            </div>
-            <a href="<?= base_url('login/logout') ?>" class="topbar-logout">
-                <i class="fas fa-sign-out-alt"></i>Logout
-            </a>
-        </div>
-    </div>
+    <?php $this->load->view('partials/admin_sidebar', ['active_menu' => 'beasiswa']); ?>
 
-    <!-- Sidebar Overlay -->
-    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
 
     <div class="admin-wrapper">
-        <!-- Sidebar -->
-        <div class="admin-sidebar" id="adminSidebar">
-            <div class="sidebar-header">
-                <h3>Admin FIK</h3>
-                <p>Manajemen Beasiswa</p>
-            </div>
-            
-            <div class="sidebar-menu">
-                <a href="<?= base_url('admin/edit_hero') ?>" class="<?= ($this->uri->segment(2) == 'edit_hero') ? 'active' : '' ?>">
-                    <i class="fas fa-desktop"></i>
-                    <span>Dashboard</span>
-                </a>
-
-                <a href="<?= base_url('admin/proposal') ?>">
-                    <i class="fas fa-file-alt"></i>
-                    <span>Proposal</span>
-                </a>
-
-                <a href="<?= base_url('admin/beasiswa') ?>"  class="active">
-                    <i class="fas fa-graduation-cap"></i><span>Beasiswa</span>
-                </a>
-
-                <a href="<?= base_url('sertifikat/admin') ?>">
-                    <i class="fas fa-certificate"></i>
-                    <span>Sertifikat</span>
-                </a>
-                <a href="<?= base_url('tak_admin') ?>">
-                    <i class="fas fa-file-signature"></i>
-                    <span>TAK</span>
-                </a>
-                <a href="<?= base_url('berita/admin') ?>">
-                    <i class="fas fa-newspaper"></i>
-                    <span>Berita</span>
-                </a>
-                <a href="<?= base_url('admin/organisasi') ?>">
-                    <i class="fas fa-users"></i>
-                    <span>Organisasi</span>
-                </a>
-
-                <a href="<?= base_url('admin/direktorat') ?>">
-                    <i class="fas fa-building"></i>
-                    <span>Direktorat</span>
-                </a>
-
-                <a href="<?= base_url('admin/mitra') ?>">
-                    <i class="fas fa-handshake"></i>
-                    <span>Mitra & Recog</span>
-                </a>
-
-                <a href="<?= base_url('admin/testimoni') ?>">
-                    <i class="fas fa-comments"></i>
-                    <span>Testimoni Alumni</span>
-                </a>
-
-                <a href="<?= base_url('admin/tentang_kami') ?>" >
-                    <i class="fas fa-info-circle"></i><span>Tentang Kami</span>
-                </a>
-
-                <a href="<?= base_url('admin/pedoman') ?>">
-                    <i class="fas fa-book"></i><span>Pedoman &amp; Peraturan</span>
-                </a>
-
-                <div class="menu-divider"></div>
-
-                <a href="<?= base_url('admin/forum_alumni') ?>">
-                    <i class="fas fa-comments"></i>
-                    <span>Forum Alumni</span>
-                    <?php 
-                    $CI =& get_instance();
-                    $pending_posts = $CI->db->where('status', 'pending')->count_all_results('forum_alumni_posts');
-                    if ($pending_posts > 0): 
-                    ?>
-                        <span class="badge bg-danger ms-auto"><?= $pending_posts ?></span>
-                    <?php endif; ?>
-                </a>
-
-                <a href="<?= base_url('admin/history_log') ?>">
-                    <i class="fas fa-history"></i>
-                    <span>History Log</span>
-                </a>
-
-                <div class="menu-divider"></div>
-
-                <a href="<?= base_url('dashboard') ?>">
-                    <i class="fas fa-arrow-left"></i>
-                    <span>Kembali ke Dashboard</span>
-                </a>
-            </div>
-        </div>
 
         <!-- Main Content -->
         <div class="admin-main">
             <div class="admin-header">
                 <h1>Manajemen Pendaftaran Beasiswa</h1>
-                <div class="user-info">
-                    <span><i class="fas fa-user-circle me-2" style="color: #E67E22;"></i> <?= $this->session->userdata('nama') ?></span>
-                    <a href="<?= base_url('login/logout') ?>" class="logout-btn">
-                        <i class="fas fa-sign-out-alt me-2"></i>Logout
-                    </a>
-                </div>
             </div>
 
             <!-- Flash Messages -->
@@ -790,22 +588,6 @@
         let currentApproveId = null;
         let currentRejectId = null;
 
-        function toggleSidebar() {
-            const sidebar = document.getElementById('adminSidebar');
-            const overlay = document.getElementById('sidebarOverlay');
-            const icon = document.getElementById('hamburgerIcon');
-            
-            sidebar.classList.toggle('open');
-            overlay.classList.toggle('active');
-            
-            if (sidebar.classList.contains('open')) {
-                icon.classList.remove('fa-bars');
-                icon.classList.add('fa-times');
-            } else {
-                icon.classList.remove('fa-times');
-                icon.classList.add('fa-bars');
-            }
-        }
 
         function previewBerkas(fileUrl, fileTitle) {
             document.getElementById('previewFileTitle').innerHTML = '<i class="fas fa-file-alt me-2 text-primary"></i>' + fileTitle;
